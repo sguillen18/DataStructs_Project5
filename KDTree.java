@@ -16,4 +16,12 @@ public class KDTree {
 		return root == null;
 	}
 	
+	public KDTree insert() {
+		return ;
+	}
+	
+	public int getHeight() {
+		return;
+	}
+	
 }
