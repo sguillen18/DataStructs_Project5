@@ -85,6 +85,10 @@ public class KDTree {
 	public void print() {
 		root.print(null, 1, 'q');
 	}
+	
+	public void clear() {
+		root.clear();
+	}
 
 
 	class BinaryNode {
@@ -235,6 +239,14 @@ public class KDTree {
 			if(data.equals(coor))
 				return true;
 			return leftChild.contains(coor) || rightChild.contains(coor);
+		}
+		
+		public void clear() {
+			data = null;
+			if(hasLeftChild())
+				leftChild.clear();
+			if(hasRightChild())
+				rightChild.clear();
 		}
 
 		public BinaryNode  copy() {
