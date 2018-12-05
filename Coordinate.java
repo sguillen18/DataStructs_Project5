@@ -29,4 +29,10 @@ public class Coordinate {
 	public int getYCoordinate() {
 		return y_coordinate;
 	}
+	
+	public boolean equal(Coordinate other) {
+		if(x_coordinate == other.x_coordinate && y_coordinate == other.y_coordinate)
+			return true;
+		return false;
+	}
 }

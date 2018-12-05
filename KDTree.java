@@ -74,37 +74,12 @@ public class KDTree {
 		root.getLeaves();
 	}
 	
-	public void add(Coordinate newCoor, int level) {
-		if(level%2 == 1) {
-			if(root.getData().getXCoordinate() > newCoor.getXCoordinate()) {
-				if(!(root.hasLeftChild())) {
-					BinaryNode  n = new BinaryNode (newCoor);
-					root.setLeftChild(n);
-				}
-				else {
-				}
-			}
-
-			if(root.getData().getXCoordinate() <= newCoor.getXCoordinate() && 
-					!(root.hasRightChild())) {
-				BinaryNode  n = new BinaryNode (newCoor);
-				root.setRightChild(n);
-			}
-		}
-		
-		if(level%2 == 0) {
-			if(root.getData().getYCoordinate() > newCoor.getYCoordinate() &&
-					!(root.hasLeftChild())) {
-				BinaryNode  n = new BinaryNode (newCoor);
-				root.setLeftChild(n);
-			}
-
-			if(root.getData().getYCoordinate() <= newCoor.getYCoordinate() && 
-					!(root.hasRightChild())) {
-				BinaryNode  n = new BinaryNode (newCoor);
-				root.setRightChild(n);
-			}
-		}
+	public void add(Coordinate newCoor) {
+		root.add(newCoor, 1);
+	}
+	
+	public boolean contains (Coordinate coor) {
+		return root.contains(coor);
 	}
 
 
@@ -204,13 +179,18 @@ public class KDTree {
 						root.setLeftChild(n);
 					}
 					else {
+						leftChild.add(newCoor, level+1);
 					}
 				}
 
-				if(root.getData().getXCoordinate() <= newCoor.getXCoordinate() && 
-						!(root.hasRightChild())) {
-					BinaryNode  n = new BinaryNode (newCoor);
-					root.setRightChild(n);
+				if(root.getData().getXCoordinate() <= newCoor.getXCoordinate()){
+					if(!(root.hasRightChild())){
+						BinaryNode  n = new BinaryNode (newCoor);
+						root.setRightChild(n);
+					}
+					else {
+						rightChild.add(newCoor, level+1);
+					}
 				}
 			}
 			
@@ -227,6 +207,12 @@ public class KDTree {
 					root.setRightChild(n);
 				}
 			}
+		}
+		
+		public boolean contains (Coordinate coor) {
+			if(data.equals(coor))
+				return true;
+			return leftChild.contains(coor) || rightChild.contains(coor);
 		}
 
 		public BinaryNode  copy() {
