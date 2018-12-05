@@ -35,4 +35,12 @@ public class Coordinate {
 			return true;
 		return false;
 	}
+	
+	public void print() {
+		if(x_coordinate == 0 && y_coordinate == 0) 
+			System.out.print("(*, *)");
+		
+		else
+			System.out.print("(" + x_coordinate + ", " + y_coordinate + ")");
+	}
 }

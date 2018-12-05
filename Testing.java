@@ -2,7 +2,31 @@
 public class Testing {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Coordinate c = new Coordinate(20, 50);
+		c.print();
+		System.out.print("\n");
+		
+		KDTree onlyRoot = new KDTree ();
+		onlyRoot.add(c);
+		onlyRoot.print();
+		System.out.print("\n");
+		
+		Coordinate d = new Coordinate(21, 48);
+		Coordinate e = new Coordinate(10, 70);
+		Coordinate f = new Coordinate(40, 23);
+		Coordinate g = new Coordinate(30, 17);
+		
+		KDTree a = new KDTree();
+		a.add(d);
+		a.add(e);
+		a.add(f);
+		a.add(g);
+		
+		a.print();
+		System.out.print("\n\n");
+		
+		
+		System.out.println("Height is " + a.getHeight());
 
 	}
 

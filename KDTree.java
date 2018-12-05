@@ -81,6 +81,10 @@ public class KDTree {
 	public boolean contains (Coordinate coor) {
 		return root.contains(coor);
 	}
+	
+	public void print() {
+		root.print(null, 1, 'q');
+	}
 
 
 	class BinaryNode {
@@ -173,38 +177,56 @@ public class KDTree {
 		
 		public void add(Coordinate newCoor, int level) {
 			if(level%2 == 1) {
-				if(data.getXCoordinate() > newCoor.getXCoordinate()) {
-					if(!(root.hasLeftChild())) {
-						BinaryNode  n = new BinaryNode (newCoor);
-						root.setLeftChild(n);
-					}
-					else {
-						leftChild.add(newCoor, level+1);
-					}
+				if(data == null) {
+					data = newCoor;
 				}
-
-				if(root.getData().getXCoordinate() <= newCoor.getXCoordinate()){
-					if(!(root.hasRightChild())){
-						BinaryNode  n = new BinaryNode (newCoor);
-						root.setRightChild(n);
+				else {
+					if(data.getXCoordinate() > newCoor.getXCoordinate()) {
+						if(!(hasLeftChild())) {
+							BinaryNode  n = new BinaryNode (newCoor);
+							setLeftChild(n);
+						}
+						else {
+							leftChild.add(newCoor, level+1);
+						}
 					}
-					else {
-						rightChild.add(newCoor, level+1);
+
+					if(data.getXCoordinate() <= newCoor.getXCoordinate()){
+						if(!(hasRightChild())){
+							BinaryNode  n = new BinaryNode (newCoor);
+							setRightChild(n);
+						}
+						else {
+							rightChild.add(newCoor, level+1);
+						}
 					}
 				}
 			}
 			
 			if(level%2 == 0) {
-				if(root.getData().getYCoordinate() > newCoor.getYCoordinate() &&
-						!(root.hasLeftChild())) {
-					BinaryNode  n = new BinaryNode (newCoor);
-					root.setLeftChild(n);
+				if(data == null) {
+					data = newCoor;
 				}
+				else {
+					if(data.getYCoordinate() > newCoor.getYCoordinate()) {
+						if(!(hasLeftChild())) {
+							BinaryNode  n = new BinaryNode (newCoor);
+							setLeftChild(n);
+						}
+						else {
+							leftChild.add(newCoor, level+1);
+						}
+					}
 
-				if(root.getData().getYCoordinate() <= newCoor.getYCoordinate() && 
-						!(root.hasRightChild())) {
-					BinaryNode  n = new BinaryNode (newCoor);
-					root.setRightChild(n);
+					if(data.getYCoordinate() <= newCoor.getYCoordinate()) {
+						if(!(hasRightChild())) {
+							BinaryNode  n = new BinaryNode (newCoor);
+							setRightChild(n);
+						}
+						else {
+							rightChild.add(newCoor, level+1);
+						}
+					}
 				}
 			}
 		}
@@ -223,6 +245,29 @@ public class KDTree {
 			if(hasRightChild())
 				copied.setRightChild((BinaryNode) rightChild.copy());
 			return copied;
+		}
+		
+		public void print(Coordinate root, int level, char left) {
+			System.out.println("\nLevel " + level);
+			if(root == null) {
+				System.out.print("  Root");
+			}
+			if(left == 'l' && root != null) {
+				System.out.print("  Left: Parent is ");
+				root.print();
+				System.out.print("\n");
+			}
+			if(left == 'r' && root != null) {
+				System.out.print("  Right: Parent is ");
+				root.print();
+				System.out.print("\n");
+			}
+			System.out.print("  ");
+			data.print();
+			if(hasLeftChild())
+				leftChild.print(data, level+1, 'l');
+			if(hasRightChild()) 
+				rightChild.print(data, level+1, 'r');
 		}
 
 	}
