@@ -79,7 +79,7 @@ public class KDTree {
 	}
 	
 	public boolean contains (Coordinate coor) {
-		return root.contains(coor);
+		return root.contains(coor, 1);
 	}
 	
 	public void print() {
@@ -180,65 +180,66 @@ public class KDTree {
 		}
 		
 		public void add(Coordinate newCoor, int level) {
-			if(level%2 == 1) {
-				if(data == null) {
-					data = newCoor;
-				}
-				else {
-					if(data.getXCoordinate() > newCoor.getXCoordinate()) {
-						if(!(hasLeftChild())) {
-							BinaryNode  n = new BinaryNode (newCoor);
-							setLeftChild(n);
-						}
-						else {
-							leftChild.add(newCoor, level+1);
-						}
+			if(data == null) {
+				data = newCoor;
+			}
+			else if(level%2 == 1) {
+				if(data.getXCoordinate() > newCoor.getXCoordinate()) {
+					if(hasLeftChild()) {
+						leftChild.add(newCoor, level+1);
 					}
+					else {
+						BinaryNode  n = new BinaryNode (newCoor);
+						setLeftChild(n);
+					}
+				}
 
-					if(data.getXCoordinate() <= newCoor.getXCoordinate()){
-						if(!(hasRightChild())){
-							BinaryNode  n = new BinaryNode (newCoor);
-							setRightChild(n);
-						}
-						else {
-							rightChild.add(newCoor, level+1);
-						}
+				else{
+					if(hasRightChild()){
+						rightChild.add(newCoor, level+1);
+					}
+					else {
+						BinaryNode  n = new BinaryNode (newCoor);
+						setRightChild(n);
 					}
 				}
 			}
-			
-			if(level%2 == 0) {
-				if(data == null) {
-					data = newCoor;
-				}
-				else {
-					if(data.getYCoordinate() > newCoor.getYCoordinate()) {
-						if(!(hasLeftChild())) {
-							BinaryNode  n = new BinaryNode (newCoor);
-							setLeftChild(n);
-						}
-						else {
-							leftChild.add(newCoor, level+1);
-						}
-					}
 
-					if(data.getYCoordinate() <= newCoor.getYCoordinate()) {
-						if(!(hasRightChild())) {
-							BinaryNode  n = new BinaryNode (newCoor);
-							setRightChild(n);
-						}
-						else {
-							rightChild.add(newCoor, level+1);
-						}
+			else {
+				if(data.getYCoordinate() > newCoor.getYCoordinate()) {
+					if(hasLeftChild()) {
+						leftChild.add(newCoor, level+1);
+					}
+					else {
+						BinaryNode  n = new BinaryNode (newCoor);
+						setLeftChild(n);
+					}
+				}
+				else{
+					if(hasRightChild()) {
+						rightChild.add(newCoor, level+1);
+					}
+					else {
+						BinaryNode  n = new BinaryNode (newCoor);
+						setRightChild(n);
 					}
 				}
 			}
 		}
 		
-		public boolean contains (Coordinate coor) {
-			if(data.equals(coor))
-				return true;
-			return leftChild.contains(coor) || rightChild.contains(coor);
+		public boolean contains (Coordinate coor, int level) {
+			if(data.compare(coor, level) == 0) {
+				if(data.equals(coor))
+					return true;
+				else if(hasRightChild())
+					return rightChild.contains(coor, level + 1);
+			}
+			if(data.compare(coor, level) == -1)
+				return leftChild.contains(coor, level + 1);
+			if(data.compare(coor, level) == 1)
+				return rightChild.contains(coor, level + 1);
+			else
+				return false;
 		}
 		
 		public void clear() {

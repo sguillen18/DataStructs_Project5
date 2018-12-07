@@ -15,6 +15,7 @@ public class Testing {
 		Coordinate e = new Coordinate(10, 70);
 		Coordinate f = new Coordinate(40, 23);
 		Coordinate g = new Coordinate(30, 17);
+		Coordinate h = new Coordinate(38, 17);
 		
 		KDTree a = new KDTree();
 		a.add(d);
@@ -27,6 +28,9 @@ public class Testing {
 		
 		
 		System.out.println("Height is " + a.getHeight());
+		
+		System.out.println("\nContains coordinate point (30, 17): " + a.contains(f));
+		System.out.println("Contains coordinate point (38, 17): " + a.contains(h));
 
 	}
 

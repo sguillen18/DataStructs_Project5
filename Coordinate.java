@@ -30,6 +30,29 @@ public class Coordinate {
 		return y_coordinate;
 	}
 	
+	public int compare(Coordinate coor, int level) {
+		int ans = 400;
+		if(coor == null)
+			ans = 400;
+		if(level%2 == 1) {
+			if(x_coordinate < coor.getXCoordinate())
+				ans = 1;
+			if(x_coordinate > coor.getXCoordinate()) 
+				ans = -1;
+			else
+				ans = 0;
+		}
+		else {
+			if(y_coordinate < coor.getYCoordinate())
+				ans = 1;
+			if(y_coordinate > coor.getYCoordinate()) 
+				ans = -1;
+			else
+				ans = 0;
+		}
+		return ans;
+	}
+	
 	public boolean equal(Coordinate other) {
 		if(x_coordinate == other.x_coordinate && y_coordinate == other.y_coordinate)
 			return true;
